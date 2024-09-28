@@ -42,10 +42,10 @@ class Server extends Controller
     $this->view('server/create');
   }
 
-  public function edit($id)
+  public function edit($user_id)
   {
     $x = new User();
-        $arr['id'] = $id;
+        $arr['user_id'] = $user_id;
         $data = $x->first($arr);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -66,7 +66,7 @@ class Server extends Controller
                 }
             }
 
-            $x->update($id, $postData);
+            $x->update_user($user_id, $postData);
 
             redirect('server/users');
         }
@@ -76,15 +76,15 @@ class Server extends Controller
         ]);
   }
 
-  public function delete($id)
+  public function delete($user_id)
   {
     $x = new User();
-    $arr['id'] = $id;
+    $arr['user_id'] = $user_id;
     $data = $x->first($arr);
 
     if (count($_POST) > 0) {
 
-      $x->delete($id);
+      $x->delete_user($user_id);
 
       redirect('server/users');
     }
