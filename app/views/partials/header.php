@@ -1,3 +1,14 @@
+<?php
+if (isset($_GET['logout'])) {
+    session_unset();
+
+    session_destroy();
+
+    $this->view("server/login");
+    exit();
+}
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -29,6 +40,11 @@
           </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="<?= SERVER ?>/users">Users</a>
+          </li>
+          <li>
+            <a href="<?= SERVER ?>/login?logout=true" class="nav-link" id="logout">
+            <span class="link">Log Out</span>
+            </a>
           </li>
         </ul>
         <form class="d-flex" role="search">

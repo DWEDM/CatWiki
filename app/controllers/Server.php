@@ -2,7 +2,65 @@
 
 class Server extends Controller
 {
-  public function index()
+  public function login()
+  {
+    session_start();
+
+    if (isset($_SESSION['username'])) {
+        $this->view('server/dashboard');
+        exit();
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $text_username = $_POST['username'];
+        $text_password = $_POST['password'];
+
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "catwiki_db";
+
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        // Update the query to also fetch the user's role
+        $query = "SELECT * FROM users WHERE username='$text_username' AND password='$text_password'";
+        $result = $conn->query($query);
+
+        if ($result->num_rows == 1) {
+            $user = $result->fetch_assoc();
+            $_SESSION['username'] = $text_username;
+            $_SESSION['role'] = $user['role']; // Assuming 'role' is the column name in your users table
+
+            // Check the user's role
+            if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Editor') {
+                $this->view('server/dashboard');
+                exit();
+            } else {
+                echo '<script type="text/javascript">';
+                echo 'alert("Access denied: Not Permitted");';
+                echo '</script>';
+                $this->view('server/login');
+                exit();
+            }
+        } else {
+            echo '<script type="text/javascript">';
+            echo 'alert("Invalid Username or Password");';
+            echo '</script>';
+            $this->view('server/login');
+            exit();
+        }
+
+        $conn->close();
+    }
+
+    $this->view('server/login');
+  }
+
+  public function dashboard()
   {
 
     $this->view('server/dashboard');
