@@ -151,4 +151,13 @@ class Server extends Controller
       'row' => $data
     ]);
   }
+  public function posts()
+  {
+    $articles = new Article();
+    $data = $articles->findAll();
+
+    $this->view('server/posts', [
+      'posts' => $data
+    ]);
+  }
 }

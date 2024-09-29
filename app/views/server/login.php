@@ -28,5 +28,4 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+<?php include "../app/views/partials/footer.php" ?>

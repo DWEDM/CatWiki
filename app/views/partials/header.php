@@ -1,10 +1,8 @@
 <?php
 if (isset($_GET['logout'])) {
     session_unset();
-
     session_destroy();
-
-    $this->view("server/login");
+    header("Location: " . SERVER . "/login");
     exit();
 }
 ?>
@@ -40,6 +38,9 @@ if (isset($_GET['logout'])) {
           </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="<?= SERVER ?>/users">Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="<?= SERVER ?>/posts">Posts</a>
           </li>
           <li>
             <a href="<?= SERVER ?>/login?logout=true" class="nav-link" id="logout">

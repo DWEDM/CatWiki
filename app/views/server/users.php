@@ -6,6 +6,7 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 ?>
+
 <?php include "../app/views/partials/header.php" ?>
 <body style="background-color:gray;">
 
@@ -19,7 +20,7 @@ if (!isset($_SESSION['username'])) {
     <input type="text" id="searchInput" class="form-control" placeholder="Search by username or email" aria-label="Search" onkeyup="searchUsers()">
   </div>
 
-  <table class="table table-striped mt-3">
+  <table class="table table-striped mt-3" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); border-radius: 5px; overflow: hidden;">
     <tr>
       <th>Profile</th>
       <th>Username</th>
@@ -36,7 +37,7 @@ if (!isset($_SESSION['username'])) {
       <?php foreach ($users as $row) { ?>
         <tr>
           <td>
-            <img src="<?= !empty($row->profile) ? $row->profile : '../assets/images/default_profile/default.png' ?>" alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid #000;">
+            <img src="<?= !empty($row->profile) ? $row->profile : '../assets/images/default_profile/default.png' ?>" alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid #000; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">
           </td>
           <td><?= $row->username ?></td>
           <td><?= $row->email ?></td>
