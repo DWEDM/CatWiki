@@ -195,12 +195,12 @@ class Server extends Controller
     $c = new Cat();
 
     if (count($_POST) > 0) {
-        if ($_FILES['input_cat_profile']['error'] === UPLOAD_ERR_OK) {
+        if ($_FILES['cat_image_url']['error'] === UPLOAD_ERR_OK) {
             $uploadDir = '../public/assets/images/cat_profile/';
-            $uniqueFilename = uniqid('image_') . '_' . $_FILES['input_cat_profile']['name'];
+            $uniqueFilename = uniqid('image_') . '_' . $_FILES['cat_image_url']['name'];
             $uploadFile = $uploadDir . $uniqueFilename;
 
-            if (move_uploaded_file($_FILES['input_cat_profile']['tmp_name'], $uploadFile)) {
+            if (move_uploaded_file($_FILES['cat_image_url']['tmp_name'], $uploadFile)) {
                 $relativeFilePath = str_replace('/public', '', $uploadFile);
                 $_POST['cat_image_url'] = $relativeFilePath;
             } else {

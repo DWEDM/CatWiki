@@ -42,17 +42,30 @@ if (!isset($_SESSION['username'])) {
                 <img src="<?= !empty($catr->cat_image_url) ? $catr->cat_image_url : '../assets/images/default_profile/defaultcat.png' ?>" alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid #000; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">
               </td>
               <td><?= $catr->cat_name ?></td>
-              <td><?= $catr->breed_id ?></td>
+              <td>
+                <?php
+                // Find the breed name corresponding to the breed_id
+                $breedName = '';
+                foreach ($breeds as $breed) {
+                    if ($breed->breed_id == $catr->breed_id) {
+                        $breedName = $breed->breed_name;
+                        break; // Exit the loop once found
+                    }
+                }
+                echo $breedName;
+                ?>
+              </td>
               <td><?= $catr->cat_description ?></td>
               <td>
                 <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editUserModal<?= $catr->cat_id ?>">Edit</button>
                 <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteUserModal<?= $catr->cat_id ?>">Delete</button>
               </td>
             </tr>
-            <?php } ?>
         <?php } ?>
+      <?php } ?>
     </table>
-  </div>
+</div>
+
 
   <div id="breedsTable" class="mt-3" style="display: none;">
     <table class="table table-striped">
@@ -181,24 +194,6 @@ if (!isset($_SESSION['username'])) {
 <?php include "../app/views/partials/footer.php" ?>
 
 <script>
-function searchUsers() {
-    const input = document.getElementById('searchInput').value.toLowerCase();
-    const catsRows = document.querySelectorAll('#catsTable tr:not(:first-child)');
-    const breedsRows = document.querySelectorAll('#breedsTable tr:not(:first-child)');
-
-    // Filter cats
-    catsRows.forEach(row => {
-        const catName = row.cells[1].textContent.toLowerCase();
-        row.style.display = catName.includes(input) ? '' : 'none';
-    });
-
-    // Filter breeds
-    breedsRows.forEach(row => {
-        const breedName = row.cells[0].textContent.toLowerCase();
-        row.style.display = breedName.includes(input) ? '' : 'none';
-    });
-}
-
 document.getElementById('showCats').addEventListener('click', function() {
     document.getElementById('catsTable').style.display = 'block';
     document.getElementById('breedsTable').style.display = 'none';
