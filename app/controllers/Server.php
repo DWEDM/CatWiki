@@ -195,23 +195,51 @@ class Server extends Controller
     $c = new Cat();
 
     if (count($_POST) > 0) {
-        if ($_FILES['cat_image_url']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = '../public/assets/images/cat_profile/';
-            $uniqueFilename = uniqid('image_') . '_' . $_FILES['cat_image_url']['name'];
-            $uploadFile = $uploadDir . $uniqueFilename;
+        $uploadedImages = []; // Array to store the paths of uploaded images
 
-            if (move_uploaded_file($_FILES['cat_image_url']['tmp_name'], $uploadFile)) {
-                $relativeFilePath = str_replace('/public', '', $uploadFile);
-                $_POST['cat_image_url'] = $relativeFilePath;
+        // Handle profile image
+        if ($_FILES['cat_profile_image']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = '../public/assets/images/cat_profile/';
+            $uniqueProfileFilename = uniqid('profile_') . '_' . basename($_FILES['cat_profile_image']['name']);
+            $uploadProfileFile = $uploadDir . $uniqueProfileFilename;
+
+            if (move_uploaded_file($_FILES['cat_profile_image']['tmp_name'], $uploadProfileFile)) {
+                $relativeProfilePath = str_replace('/public', '', $uploadProfileFile);
+                $_POST['cat_profile'] = $relativeProfilePath; // Store the profile image path
             } else {
-                echo "Error uploading file.";
+                echo "Error uploading profile image.";
                 exit;
             }
         }
+
+        // Handle related images
+        if (isset($_FILES['cat_image_url']) && !empty($_FILES['cat_image_url']['name'][0])) {
+            foreach ($_FILES['cat_image_url']['tmp_name'] as $key => $tmpName) {
+                if ($_FILES['cat_image_url']['error'][$key] === UPLOAD_ERR_OK) {
+                    $uploadDir = '../public/assets/images/cat_images/'; // Ensure this directory exists
+                    $uniqueFilename = uniqid('image_') . '_' . basename($_FILES['cat_image_url']['name'][$key]);
+                    $uploadFile = $uploadDir . $uniqueFilename;
+
+                    if (move_uploaded_file($tmpName, $uploadFile)) {
+                        $relativeFilePath = str_replace('/public', '', $uploadFile);
+                        $uploadedImages[] = $relativeFilePath; // Store each image path
+                    } else {
+                        echo "Error uploading file: " . $_FILES['cat_image_url']['name'][$key];
+                        exit;
+                    }
+                }
+            }
+
+            // Store the uploaded image paths in POST as a JSON array
+            $_POST['cat_image_url'] = json_encode($uploadedImages); // Convert to JSON
+        }
+
+        // Call the insert method with the modified $_POST data
         $c->insert($_POST);
         redirect('server/cats');
     }
 
     $this->view('server/createcat');
   }
+
 }
