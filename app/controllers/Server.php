@@ -2,7 +2,7 @@
 
 class Server extends Controller
 {
-  public function login()
+  public function index()
   {
     session_start();
 
@@ -151,13 +151,67 @@ class Server extends Controller
       'row' => $data
     ]);
   }
-  public function posts()
+  public function article()
   {
-    $articles = new Article();
-    $data = $articles->findAll();
+    $posts = new Article();
+    $data = $posts->findAll();
 
-    $this->view('server/posts', [
+    $this->view('server/aricle', [
       'posts' => $data
     ]);
+  }
+  public function profile()
+  {
+
+    $this->view('server/profile');
+  }
+  public function cats()
+  {
+    $cats = new Cat();
+    $data = $cats->findAll();
+    $breeds = new Breed();
+    $datab = $breeds->findAll();
+
+    $this->view('server/cats', [
+      'cats' => $data,
+      'breeds' => $datab
+    ]);
+  }
+  public function createBreed()
+  {
+    $b = new Breed();
+
+    if (count($_POST) > 0) {
+      
+      $b->insert($_POST);
+
+      redirect('server/cats');
+    }
+
+    $this->view('server/createbreed');
+  }
+  public function createcat()
+  {
+    $c = new Cat();
+
+    if (count($_POST) > 0) {
+        if ($_FILES['input_cat_profile']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = '../public/assets/images/cat_profile/';
+            $uniqueFilename = uniqid('image_') . '_' . $_FILES['input_cat_profile']['name'];
+            $uploadFile = $uploadDir . $uniqueFilename;
+
+            if (move_uploaded_file($_FILES['input_cat_profile']['tmp_name'], $uploadFile)) {
+                $relativeFilePath = str_replace('/public', '', $uploadFile);
+                $_POST['cat_image_url'] = $relativeFilePath;
+            } else {
+                echo "Error uploading file.";
+                exit;
+            }
+        }
+        $c->insert($_POST);
+        redirect('server/cats');
+    }
+
+    $this->view('server/createcat');
   }
 }

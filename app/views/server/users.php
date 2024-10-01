@@ -185,6 +185,7 @@ if (!isset($_SESSION['username'])) {
               <option value="Admin">Admin</option>
               <option value="Editor">Editor</option>
               <option value="User">User</option>
+              <option value="User">Cat</option>
             </select>
           </div>
           <div class="mb-2">

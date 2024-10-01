@@ -20,7 +20,7 @@ if (!isset($_SESSION['username'])) {
 
 <table class="table table-striped mt-3">
   <tr>
-    <th>Image</th>
+    <th></th>
     <th>Title</th>
     <th>Content</th>
     <th>Breed</th>

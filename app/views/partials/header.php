@@ -40,7 +40,13 @@ if (isset($_GET['logout'])) {
             <a class="nav-link active" aria-current="page" href="<?= SERVER ?>/users">Users</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="<?= SERVER ?>/posts">Posts</a>
+            <a class="nav-link active" aria-current="page" href="<?= SERVER ?>/articles">Articles</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="<?= SERVER ?>/cats">Cats</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="<?= SERVER ?>/profile">Profile</a>
           </li>
           <li>
             <a href="<?= SERVER ?>/login?logout=true" class="nav-link" id="logout">

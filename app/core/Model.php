@@ -141,32 +141,5 @@ class Model extends Database
 
     return false;
   }
-  public function login($username, $password)
-  {
-    // Prepare the SQL statement to prevent SQL injection
-    $query = "SELECT * FROM $this->table WHERE username = :username";
-    $stmt = $this->prepare($query);
-    
-    // Bind the parameters
-    $stmt->bindParam(':username', $username);
-    
-    // Execute the statement
-    $stmt->execute();
-    
-    // Fetch the user data
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-    // Check if user exists and verify the password
-    if ($user && password_verify($password, $user['password'])) {
-        // Check if the user role is either admin or editor
-        if ($user['role'] === 'admin' || $user['role'] === 'editor') {
-            return [
-                'user' => $user, // User data
-                'role' => $user['role'] // User role
-            ]; 
-        }
-    }
-    
-    return false; // Login failed
-  }
+  
 }
