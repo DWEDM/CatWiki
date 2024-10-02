@@ -129,7 +129,7 @@ class Server extends Controller
             redirect('server/users');
         }
 
-        $this->view('edit', [
+        $this->view('server/edit', [
             'row' => $data
         ]);
   }
@@ -211,7 +211,7 @@ class Server extends Controller
                 exit;
             }
         }
-
+        
         // Handle related images
         if (isset($_FILES['cat_image_url']) && !empty($_FILES['cat_image_url']['name'][0])) {
             foreach ($_FILES['cat_image_url']['tmp_name'] as $key => $tmpName) {
@@ -240,6 +240,75 @@ class Server extends Controller
     }
 
     $this->view('server/createcat');
+  }
+  public function editcat($cat_id)
+  {
+    $x = new Cat(); // Assuming you have a Cat model for handling cat data
+    $arr['cat_id'] = $cat_id;
+    $data = $x->first($arr);
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $postData = $_POST;
+
+        // Check if a new profile image is uploaded
+        if (isset($_FILES['cat_profile_image']) && $_FILES['cat_profile_image']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = '../public/assets/images/cat_profile/'; // Specify your upload directory
+            $uploadFile = $uploadDir . basename($_FILES['cat_profile_image']['name']);
+
+            // Move the uploaded profile image to the desired directory
+            if (move_uploaded_file($_FILES['cat_profile_image']['tmp_name'], $uploadFile)) {
+                $relativeFilePath = str_replace('/public', '', $uploadFile);
+                $postData['cat_profile'] = $relativeFilePath; // Update profile image path in post data
+            }
+        }
+
+        // Handle additional cat images
+        if (isset($_FILES['cat_image_url']) && count($_FILES['cat_image_url']['name']) > 0) {
+            $uploadDirImages = '../public/assets/images/cat_images/'; // Specify directory for additional cat images
+
+            $imagePaths = []; // Array to store paths of uploaded images
+            foreach ($_FILES['cat_image_url']['name'] as $key => $imageName) {
+                if ($_FILES['cat_image_url']['error'][$key] === UPLOAD_ERR_OK) {
+                    $uploadFile = $uploadDirImages . basename($imageName);
+                    // Move the uploaded file to the desired directory
+                    if (move_uploaded_file($_FILES['cat_image_url']['tmp_name'][$key], $uploadFile)) {
+                        $relativeFilePath = str_replace('/public', '', $uploadFile);
+                        $imagePaths[] = $relativeFilePath; // Store the relative path of the uploaded image
+                    }
+                }
+            }
+            $postData['cat_image_url'] = json_encode($imagePaths); // Convert paths to JSON or handle as required
+        }
+
+        // Update the cat's information
+        $x->update_cat($cat_id, $postData);
+
+        // Redirect to the list of cats
+        redirect('server/cats');
+    }
+
+    $this->view('server/edit_cat', [
+        'row' => $data
+    ]);
+  }
+  public function delete_cat($cat_id)
+  {
+    $x = new Cat(); // Assuming you have a Cat model
+    $arr['cat_id'] = $cat_id;
+    $data = $x->first($arr);
+
+    if (count($_POST) > 0) {
+        // Delete the cat from the database
+        $x->delete_cat($cat_id);
+
+        // Redirect to the cats list page
+        redirect('server/cats');
+    }
+
+    // Render the delete view if needed, otherwise just handle the deletion via the modal
+    $this->view('server/delete_cat', [
+        'row' => $data
+    ]);
   }
 
 }

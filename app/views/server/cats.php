@@ -40,7 +40,7 @@ if (!isset($_SESSION['username'])) {
         <?php foreach ($cats as $catr) { ?>
             <tr>
               <td>
-                <img src="<?= !empty($catr->cat_profile) ? $catr->cat_profile : '../assets/images/default_profile/defaultcat.png' ?>" alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid #000; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">
+                <img src="<?= !empty($catr->cat_profile) ? $catr->cat_profile : '../assets/images/default_profile/defaultcat.png' ?>" alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid #000; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); margin-bottom: 10px;">
               </td>
               <td><?= $catr->cat_name ?></td>
               <td>
@@ -58,13 +58,108 @@ if (!isset($_SESSION['username'])) {
               </td>
               <td><?= $catr->cat_description ?></td>
               <td>
-                <img src="<?= !empty($catr->cat_image_url) ? $catr->cat_image_url : '../assets/images/default_profile/defaultcat.png' ?>" alt="Cat Image" style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid #000; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">
               </td>
               <td>
-                <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editUserModal<?= $catr->cat_id ?>">Edit</button>
-                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteUserModal<?= $catr->cat_id ?>">Delete</button>
+                <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editCatModal<?= $catr->cat_id ?>">Edit</button>
+                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCatModal<?= $catr->cat_id ?>">Delete</button>
               </td>
             </tr>
+            <!-- Edit Cat Modal -->
+            <div class="modal fade" id="editCatModal<?= $catr->cat_id ?>" tabindex="-1" role="dialog" aria-labelledby="editCatModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="editCatModalLabel">Edit Cat</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <form action="<?= SERVER ?>/editcat/<?= $catr->cat_id ?>" method="POST" enctype="multipart/form-data">
+                    <div class="modal-body">
+                      <div class="mb-2 text-center">
+                        <img id="editCatImagePreview<?= $catr->cat_id ?>" src="<?= !empty($catr->cat_profile) ? $catr->cat_profile : '../assets/images/default_profile/defaultcat.png' ?>" alt="Cat Profile Image" style="width: 100px; height: 100px; border-radius: 50%; border: 2px solid #000;">
+                        <br>
+                        <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeProfileImage('editCatImagePreview<?= $catr->cat_id ?>')">Remove</button>
+                      </div>
+                      <div>
+                        <label for="editCatProfileImage">Cat Profile Image</label>
+                        <input type="file" name="cat_profile_image" class="form-control" accept="image/*" onchange="previewEditCatImage(event, 'editCatImagePreview<?= $catr->cat_id ?>')">
+                      </div>
+                      <div class="mb-2">
+                        <label for="catName">Cat Name</label>
+                        <input type="text" name="cat_name" value="<?= $catr->cat_name ?>" class="form-control" required>
+                      </div>
+                      <div class="mb-2">
+                        <label for="breedId">Breed</label>
+                        <select name="breed_id" class="form-control" required>
+                          <option value="">Select Breed</option>
+                          <?php foreach ($breeds as $breed) { ?>
+                            <option value="<?= $breed->breed_id ?>" <?= $breed->breed_id == $catr->breed_id ? 'selected' : '' ?>><?= $breed->breed_name ?></option>
+                          <?php } ?>
+                        </select>
+                      </div>
+                      <div class="mb-2">
+                        <label for="catDescription">Description</label>
+                        <textarea name="cat_description" class="form-control" required><?= $catr->cat_description ?></textarea>
+                      </div>
+                      <div class="mb-2">
+                        <label for="catImages">Cat Related Images</label>
+                        <input type="file" name="cat_image_url[]" class="form-control" accept="image/*" multiple onchange="previewImages(event)">
+                      </div>
+                      <div id="editCatImagePreviews<?= $catr->cat_id ?>" style="display: flex; flex-wrap: wrap; margin-top: 10px;">
+                        <!-- Display existing cat images here, if any -->
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal for Deleting Cat -->
+            <div class="modal fade" id="deleteCatModal<?= $catr->cat_id ?>" tabindex="-1" role="dialog" aria-labelledby="deleteCatModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteCatModalLabel">Delete Cat</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="<?= SERVER ?>/delete_cat/<?= $catr->cat_id ?>" method="POST">
+                            <div class="modal-body text-center">
+                                <img src="<?= !empty($catr->cat_profile) ? $catr->cat_profile : '../assets/images/default_profile/defaultcat.png' ?>" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%; border: 2px solid #000;">
+                                <p><strong>Cat Name:</strong> <?= $catr->cat_name ?></p>
+                                <?php
+                                // Find the breed name corresponding to the breed_id
+                                $deleteBreedName = '';
+                                foreach ($breeds as $breed) {
+                                    if ($breed->breed_id == $catr->breed_id) {
+                                        $deleteBreedName = $breed->breed_name;
+                                        break; // Exit the loop once found
+                                    }
+                                }
+                                ?>
+                                <p><strong>Breed:</strong> <?= $deleteBreedName ?></p>
+                                <p><strong>Description:</strong> <?= $catr->cat_description ?></p>
+                                <p><strong>Cat Images:</strong></p>
+                                <input type="hidden" name="id" value="<?= $catr->cat_id ?>">
+                                <p>Are you sure you want to delete this cat?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
         <?php } ?>
       <?php } ?>
     </table>
@@ -89,7 +184,7 @@ if (!isset($_SESSION['username'])) {
               <td><?= $breed->breed_name ?></td>
               <td><?= $breed->breed_description ?></td>
               <td><?= $breed->average_lifespan ?></td>
-              <td><?= $breed->size ?></td>
+              <td><?= $breed->origin ?></td>
               <td>
                 <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editBreedModal<?= $breed->breed_id ?>">Edit</button>
                 <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteBreedModal<?= $breed->breed_id ?>">Delete</button>
@@ -145,8 +240,8 @@ if (!isset($_SESSION['username'])) {
             <input type="number" class="form-control" id="averageLifespan" name="average_lifespan">
           </div>
           <div class="form-group">
-            <label for="breedSize">Size</label>
-            <input type="text" class="form-control" id="breedSize" name="size">
+            <label for="breedOrigin">Origin</label>
+            <input type="text" class="form-control" id="breedOrigin" name="origin">
           </div>
           <button type="submit" class="btn btn-primary">Add Breed</button>
         </form>
@@ -253,12 +348,4 @@ function previewProfileImage(event) {
         profileImagePreview.src = '../assets/images/default_profile/defaultcat.png'; // Reset to default
     }
 }
-$(document).ready(function() {
-    // Optional: Any custom logic when modals are opened
-    $('.modal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget); // Button that triggered the modal
-        var modal = $(this);
-        // You can perform actions here if needed
-    });
-});
 </script>

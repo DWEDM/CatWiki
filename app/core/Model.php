@@ -141,5 +141,31 @@ class Model extends Database
 
     return false;
   }
-  
+  public function update_cat($id, $data, $column = 'cat_id')
+  {
+    $keys = array_keys($data);
+    $query = "update $this->table set ";
+
+    foreach ($keys as $key) {
+      $query .= $key . " = :" . $key . ", ";
+    }
+
+    $query = trim($query, ", ");
+
+    $query .= " where $column = :$column";
+
+    $data[$column] = $id;
+    $this->query($query, $data);
+
+    return false;
+  }
+  public function delete_cat($id, $column = 'cat_id')
+  {
+    $data[$column] = $id;
+    $query = "delete from $this->table where $column = :$column";
+
+    $this->query($query, $data);
+
+    return false;
+  }
 }
