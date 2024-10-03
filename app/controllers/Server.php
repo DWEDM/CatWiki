@@ -293,22 +293,52 @@ class Server extends Controller
   }
   public function delete_cat($cat_id)
   {
-    $x = new Cat(); // Assuming you have a Cat model
+    $x = new Cat();
     $arr['cat_id'] = $cat_id;
     $data = $x->first($arr);
 
     if (count($_POST) > 0) {
-        // Delete the cat from the database
         $x->delete_cat($cat_id);
 
-        // Redirect to the cats list page
         redirect('server/cats');
     }
 
-    // Render the delete view if needed, otherwise just handle the deletion via the modal
     $this->view('server/delete_cat', [
         'row' => $data
     ]);
   }
+  public function editbreed($breed_id)
+  {
+    $b = new Breed();
+    $arr['breed_id'] = $breed_id;
+    $data = $b->first($arr);
 
+    if (count($_POST) > 0) {
+
+      $b->update_breed($breed_id, $_POST);
+
+      redirect('server/cats');
+    }
+
+    $this->view('server/editbreed', [
+      'row' => $data
+    ]);
+  }
+  public function delete_breed($breed_id)
+  {
+    $b = new Breed();
+    $arr['breed_id'] = $breed_id;
+    $data = $b->first($arr);
+
+    if (count($_POST) > 0) {
+
+      $b->delete_breed($breed_id);
+
+      redirect('server/cats');
+    }
+
+    $this->view('server/delete_breed', [
+      'row' => $data
+    ]);
+  }
 }

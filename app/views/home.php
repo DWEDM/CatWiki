@@ -1,10 +1,10 @@
 <?php include "partials/header.php" ?>
+<style>
+    body{
+        background: #F6F2F1;
+      }
+</style>
+<body>
 
-<br>
-<br>
-<h2>Home Page</h2>
-
-
-<body style="background-color:gray;">
-
+</body>
 <?php include "partials/footer.php" ?>
