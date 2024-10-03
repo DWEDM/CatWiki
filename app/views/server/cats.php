@@ -12,11 +12,16 @@ if (!isset($_SESSION['username'])) {
 <div class="container mt-5">
   <div class="d-flex justify-content-between align-items-center">
     <h2>Cats</h2>
-    <div>
-      <button class="btn btn-secondary" id="showCats">Show Cats</button>
-      <button class="btn btn-secondary" id="showBreeds">Show Breeds</button>
-      <button class="btn btn-primary" data-toggle="modal" data-target="#selectAddModal">Add New</button>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Show
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#" id="showCats">Cats</a>
+        <a class="dropdown-item" href="#" id="showBreeds">Breeds</a>
+      </div>
     </div>
+  <button class="btn btn-primary" data-toggle="modal" data-target="#selectAddModal">Add New</button>
   </div>
   <div class="input-group" style="width: 250px;">
     <input type="text" id="searchInput" class="form-control" placeholder="Search Posts" aria-label="Search" onkeyup="searchUsers()">
@@ -374,7 +379,6 @@ document.getElementById('showBreeds').addEventListener('click', function(event) 
     document.getElementById('catsTable').style.display = 'none';
     document.getElementById('breedsTable').style.display = 'block';
 });
-
 
 function previewImages(event) {
     const imagePreviewsContainer = document.getElementById('imagePreviews');

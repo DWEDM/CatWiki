@@ -45,7 +45,7 @@ if (isset($_GET['logout'])) {
       </div>
       
       <div class="navbar-links">
-        <ul>
+        <ul class="navbar-nav">
           <li><a href="">Home</a></li>
           <li><a href="<?= SERVER ?>/dashboard">Dashboard</a></li> <!--Dat admin/editor lang to-->
           <li><a href="<?= SERVER ?>/users">Users</a></li>
