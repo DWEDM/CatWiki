@@ -17,20 +17,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.15/cropper.min.js"></script>
 
 </head>
-<style>
-  .container-footer{
-    width: 100%;
-    background-color: black;
-  }
-</style>
-<body>
-
-<div class="container-footer">
-</div>
-
-
-
-</body>
 
 
 
