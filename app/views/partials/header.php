@@ -31,8 +31,9 @@ if (isset($_GET['logout'])) {
         height: auto;
       }
       .logo-nav img{
-        width: auto;
-        height: 8%;
+        margin-left: 3%;
+        width: 4%;
+        height: auto;
       }
     </style>
 
@@ -41,6 +42,15 @@ if (isset($_GET['logout'])) {
   <div class= "navbar">
       <div class="logo-nav">
         <img src="assets/HomePage/resources/Banner.png" alt="">
+      </div>
+      
+      <div class="navbar-links">
+        <ul>
+          <li><a href="">Home</a></li>
+          <li><a href="">Dashboard</a></li> <!--Dat admin/editor lang to-->
+          <li><a href="">Categories</a></li>
+          <li><a href=""></a></li>
+        </ul>
       </div>
   </div>
 </body>
