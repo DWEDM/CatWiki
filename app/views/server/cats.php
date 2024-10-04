@@ -11,15 +11,10 @@ if (!isset($_SESSION['username'])) {
 
 <div class="container mt-5">
   <div class="d-flex justify-content-between align-items-center">
-    <h2>Cats</h2>
-    <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Show
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#" id="showCats">Cats</a>
-        <a class="dropdown-item" href="#" id="showBreeds">Breeds</a>
-      </div>
+    <h2>Cats, Hello</h2>
+    <div>
+        <button class="btn btn-secondary mr-2" id="showCats">Show Cats</button>
+        <button class="btn btn-secondary" id="showBreeds">Show Breeds</button>
     </div>
   <button class="btn btn-primary" data-toggle="modal" data-target="#selectAddModal">Add New</button>
   </div>
@@ -35,11 +30,12 @@ if (!isset($_SESSION['username'])) {
         <th>Breed</th>
         <th>Description</th>
         <th>Cat Images</th>
+        <th>Created By</th>
         <th>Actions</th>
       </tr>
       <?php if (empty($cats)) { ?>
         <tr>
-          <td colspan="6" class="text-center">No Cats found! Please Add!</td>
+          <td colspan="7" class="text-center">No Cats found! Please Add!</td>
         </tr>
       <?php } else { ?>
         <?php foreach ($cats as $catr) { ?>
@@ -62,8 +58,8 @@ if (!isset($_SESSION['username'])) {
                 ?>
               </td>
               <td><?= $catr->cat_description ?></td>
-              <td>
-              </td>
+              <td> <!-- For Cat Related Images --></td>
+              <td><?= $catr->created_by ?></td>
               <td>
                 <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editCatModal<?= $catr->cat_id ?>">Edit</button>
                 <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCatModal<?= $catr->cat_id ?>">Delete</button>
@@ -357,13 +353,14 @@ if (!isset($_SESSION['username'])) {
             <label for="catDescription">Description</label>
             <textarea class="form-control" id="catDescription" name="cat_description" required></textarea>
           </div>
+          <!-- Hidden input for created by -->
+          <input type="hidden" name="created_by" value="<?= $_SESSION['username'] ?>">
           <button type="submit" class="btn btn-primary">Add Cat</button>
         </form>
       </div>
     </div>
   </div>
 </div>
-
 
 <?php include "../app/views/partials/footer.php" ?>
 
