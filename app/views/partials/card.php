@@ -1,9 +1,9 @@
 <style>
     .card {
     box-sizing: border-box;
-    width: 190px;
-    height: 254px;
-    background: rgba(217, 217, 217, 0.58);
+    width: 79vw;
+    height: 60vh;
+    background-color: #89ECBC;
     border: 1px solid white;
     box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
     backdrop-filter: blur(6px);
@@ -27,8 +27,15 @@
     .card:active {
     transform: scale(0.95) rotateZ(1.7deg);
     }
+  
 </style>
 
 <div class="card">
-  Click me
+  <div class="card-image">
+
+  </div>
+  <div class="card-description">
+    <h2></h2>
+    <p></p>
+  </div>
 </div>
