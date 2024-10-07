@@ -4,8 +4,11 @@ class Server extends Controller
 {
   public function index()
   {
-    session_start();
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
+    // Redirect to dashboard if user is already logged in
     if (isset($_SESSION['username'])) {
         $this->view('server/dashboard');
         exit();
@@ -15,6 +18,7 @@ class Server extends Controller
         $text_username = $_POST['username'];
         $text_password = $_POST['password'];
 
+        // Database connection
         $servername = "localhost";
         $username = "root";
         $password = "";
@@ -22,31 +26,49 @@ class Server extends Controller
 
         $conn = new mysqli($servername, $username, $password, $dbname);
 
+        // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
 
-        // Update the query to also fetch the user's role
-        $query = "SELECT * FROM users WHERE username='$text_username' AND password='$text_password'";
-        $result = $conn->query($query);
+        // Use prepared statement to prevent SQL injection
+        $query = "SELECT * FROM users WHERE username = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $text_username);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
+        // Check if user exists
         if ($result->num_rows == 1) {
             $user = $result->fetch_assoc();
-            $_SESSION['username'] = $text_username;
-            $_SESSION['role'] = $user['role']; // Assuming 'role' is the column name in your users table
 
-            // Check the user's role
-            if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Editor') {
-                $this->view('server/dashboard');
-                exit();
+            // Verify the password
+            if (password_verify($text_password, $user['password'])) {
+                // Password is correct
+                $_SESSION['username'] = $text_username;
+                $_SESSION['role'] = $user['role']; // Assuming 'role' is the column name in your users table
+
+                // Check the user's role
+                if ($_SESSION['role'] === 'Admin' || $_SESSION['role'] === 'Editor') {
+                    $this->view('server/dashboard');
+                    exit();
+                } else {
+                    echo '<script type="text/javascript">';
+                    echo 'alert("Access denied: Not Permitted");';
+                    echo '</script>';
+                    $this->view('server/login');
+                    exit();
+                }
             } else {
+                // Invalid password
                 echo '<script type="text/javascript">';
-                echo 'alert("Access denied: Not Permitted");';
+                echo 'alert("Invalid Username or Password");';
                 echo '</script>';
                 $this->view('server/login');
                 exit();
             }
         } else {
+            // User not found
             echo '<script type="text/javascript">';
             echo 'alert("Invalid Username or Password");';
             echo '</script>';
@@ -54,11 +76,15 @@ class Server extends Controller
             exit();
         }
 
+        // Close connection
+        $stmt->close();
         $conn->close();
     }
 
     $this->view('server/login');
   }
+
+
 
   public function dashboard()
   {
@@ -80,6 +106,7 @@ class Server extends Controller
     $x = new User();
 
     if (count($_POST) > 0) {
+        // Check if the profile image was uploaded without errors
         if ($_FILES['input_profile']['error'] === UPLOAD_ERR_OK) {
             $uploadDir = '../public/assets/images/users_profile/';
             $uniqueFilename = uniqid('image_') . '_' . $_FILES['input_profile']['name'];
@@ -87,12 +114,19 @@ class Server extends Controller
 
             if (move_uploaded_file($_FILES['input_profile']['tmp_name'], $uploadFile)) {
                 $relativeFilePath = str_replace('/public', '', $uploadFile);
-                $_POST['profile'] = $relativeFilePath;
+                $_POST['profile'] = $relativeFilePath; // Store the relative path of the profile image
             } else {
                 echo "Error uploading file.";
                 exit;
             }
         }
+
+        // Hash the password before inserting into the database
+        if (isset($_POST['password'])) {
+            $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        }
+
+        // Insert user data into the database
         $x->insert($_POST);
         redirect('server/users');
     }
@@ -100,39 +134,48 @@ class Server extends Controller
     $this->view('server/create');
   }
 
+
   public function edit($user_id)
   {
     $x = new User();
-        $arr['user_id'] = $user_id;
-        $data = $x->first($arr);
+    $arr['user_id'] = $user_id;
+    $data = $x->first($arr); // Fetch user data
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $postData = $_POST;
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $postData = $_POST;
 
-            // Check if a new profile image is uploaded
-            if (isset($_FILES['edit_profile']) && $_FILES['edit_profile']['error'] === UPLOAD_ERR_OK) {
-                $uploadDir = '../public/assets/images/users_profile/'; // Specify your upload directory
-                $uploadFile = $uploadDir . basename($_FILES['edit_profile']['name']);
+        // Check if a new profile image is uploaded
+        if (isset($_FILES['edit_profile']) && $_FILES['edit_profile']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = '../public/assets/images/users_profile/'; // Specify your upload directory
+            $uniqueFilename = uniqid('image_') . '_' . basename($_FILES['edit_profile']['name']);
+            $uploadFile = $uploadDir . $uniqueFilename;
 
-                // Move the uploaded file to the desired directory
-                if (move_uploaded_file($_FILES['edit_profile']['tmp_name'], $uploadFile)) {
-                    $relativeFilePath = str_replace('/public', '', $uploadFile);
-                    $postData['profile'] = $relativeFilePath;
-                } else {
-                    // Handle the error of moving the file
-                    // Optionally, set an error message to be displayed to the user
-                }
+            // Move the uploaded file to the desired directory
+            if (move_uploaded_file($_FILES['edit_profile']['tmp_name'], $uploadFile)) {
+                $relativeFilePath = str_replace('/public', '', $uploadFile);
+                $postData['profile'] = $relativeFilePath;
+            } else {
+                // Handle the error of moving the file
             }
-
-            $x->update_user($user_id, $postData);
-
-            redirect('server/users');
         }
 
-        $this->view('server/edit', [
-            'row' => $data
-        ]);
+        // Hash the password if it's provided
+        if (!empty($postData['password'])) {
+            $postData['password'] = password_hash($postData['password'], PASSWORD_DEFAULT);
+        } else {
+            // If the password field is empty, you might want to keep the existing password
+            unset($postData['password']); // Remove it from postData to avoid overwriting
+        }
+
+        $x->update_user($user_id, $postData); // Update user data
+        redirect('server/users'); // Redirect to users list
+    }
+
+    $this->view('server/edit', [
+        'row' => $data // Pass user data to the view
+    ]);
   }
+
 
   public function delete($user_id)
   {
@@ -140,17 +183,27 @@ class Server extends Controller
     $arr['user_id'] = $user_id;
     $data = $x->first($arr);
 
+    // Check if a user is logged in
+    if (isset($_SESSION['username'])) {
+        // Compare the logged-in user's ID with the user to be deleted
+        if ($_SESSION['user_id'] == $user_id) {
+            // Destroy the session if the logged-in user is being deleted
+            session_destroy();
+            redirect('server/login'); // Redirect to login
+            exit();
+        }
+    }
+
     if (count($_POST) > 0) {
-
-      $x->delete_user($user_id);
-
-      redirect('server/users');
+        $x->delete_user($user_id);
+        redirect('server/users');
     }
 
     $this->view('server/delete', [
-      'row' => $data
+        'row' => $data
     ]);
   }
+
   public function article()
   {
     $posts = new Article();
@@ -341,4 +394,41 @@ class Server extends Controller
       'row' => $data
     ]);
   }
+  public function editProfile()
+  {
+    // Check if the user is logged in
+    if (!isset($_SESSION['username'])) {
+        redirect('server/login'); // Redirect to login page if not logged in
+        exit();
+    }
+
+    // Fetch the current user's data
+    $x = new User();
+    $user_id = $_SESSION['user_id']; // Get user ID from session
+    $userData = $x->first(['user_id' => $user_id]);
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Handle form submission
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        // Add additional fields as necessary
+
+        // You can handle profile image upload if necessary
+        if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
+            // Handle the file upload and set the new profile image path
+        }
+
+        // Update the user's profile
+        $x->update_user($user_id, [
+            'username' => $username,
+            'email' => $email,
+            // Add additional fields as necessary
+        ]);
+
+        redirect('server/profile'); // Redirect to the profile page after update
+    }
+
+    $this->view('server/editProfile', ['user' => $userData]);
+  }
+
 }

@@ -1,20 +1,31 @@
+<?php
+    if (!isset($_SESSION['username'])) {
+        redirect('server/login'); // Redirect to login page if not logged in
+        exit();
+      }
+?>
+
 <?php include "../app/views/partials/header.php" ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <!-- Example of a simple profile form -->
-     <form action="update_profile.php" method="POST">
-        <input type="hidden" name="username" value="<?= htmlspecialchars($users['username']) ?>">
-        <label for="email">Email:</label>
-        <input type="email" name="email" value="<?= htmlspecialchars($users['password']) ?>" required>
-        <br>
-        <label for="role">Role:</label>
-        <input type="text" name="role" value="<?= htmlspecialchars($users['role']) ?>" readonly>
-        <br>
-        <button type="submit">Update Profile</button>
+<body style="background-color:gray;">
+<div class="container mt-5">
+    <h2>Edit Profile</h2>
+    <form action="" method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="profile_image">Profile Image</label>
+            <input type="file" name="profile_image" class="form-control" accept="image/*">
+        </div>
+        <div class="mb-3">
+            <label for="username">Username</label>
+            <input type="text" name="username" class="form-control" value="<?= htmlspecialchars($users->username) ?>" required>
+        </div>
+        <div class="mb-3">
+            <label for="email">Password</label>
+            <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($users->password) ?>" required>
+        </div>
+        <!-- Add more fields as necessary -->
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Update Profile</button>
+        </div>
     </form>
+</div>
+<?php include "../app/views/partials/footer.php" ?>
