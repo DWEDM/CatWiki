@@ -22,7 +22,7 @@ if (isset($_GET['logout'])) {
     <style>
       .navbar{
         width: 100%;
-        height: 100px;
+        height: 200px;
         background-color: #F6F2F1;
         overflow: hidden;
       }
@@ -45,12 +45,14 @@ if (isset($_GET['logout'])) {
       </div>
       
       <div class="navbar-links">
-        <ul>
+        <ul class="navbar-nav">
           <li><a href="">Home</a></li>
-          <li><a href="">Dashboard</a></li> <!--Dat admin/editor lang to-->
-          <li><a href="">Categories</a></li>
-          <li><a href=""></a></li>
+          <li><a href="<?= SERVER ?>/dashboard">Dashboard</a></li> <!--Dat admin/editor lang to-->
+          <li><a href="<?= SERVER ?>/users">Users</a></li>
+          <li><a href="<?= SERVER ?>/articles">Articles</a></li>
+          <li><a href="<?= SERVER ?>/cats">Cats</a></li>
+          <li><a href="<?= SERVER ?>/profile">Profile</a></li>
+          <li><a href="<?= SERVER ?>/login?logout=true">Log Out</a></li>
         </ul>
       </div>
   </div>
-</body>
