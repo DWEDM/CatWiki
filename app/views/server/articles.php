@@ -8,6 +8,6 @@ if (!isset($_SESSION['username'])) {
 ?>
 <?php include "../app/views/partials/header.php" ?>
 <body style="background-color: gray;">
-
+<h1>Articles</h1>
 
 <?php include "../app/views/partials/footer.php" ?>

@@ -67,7 +67,7 @@ if (!isset($_SESSION['username'])) {
                     <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeProfileImage('editImagePreview<?= $row->user_id ?>')">Remove</button>
                   </div>
                   <div>
-                    <label for="profile_image">Profile Image</label>
+                    <label for="">Profile Image</label>
                     <input type="file" name="edit_profile" class="form-control" accept="image/*" onchange="previewEditImage(event, 'editImagePreview<?= $row->user_id ?>')">
                   </div>
                   <div class="mb-2">
@@ -75,11 +75,11 @@ if (!isset($_SESSION['username'])) {
                     <input type="text" name="username" value="<?= $row->username ?>" class="form-control">
                   </div>
                   <div class="mb-2">
-                    <label for="Email">Email</label>
+                    <label for="">Email</label>
                     <input type="text" name="email" value="<?= $row->email ?>" class="form-control">
                   </div>
                   <div class="mb-2">
-                    <label for="role">Role</label>
+                    <label for="">Role</label>
                     <select name="role" id="role" class="form-control">
                       <option value="Select" disabled <?= $row->role ? '' : 'selected' ?>>--Select--</option>
                       <option value="Admin" <?= $row->role == 'Admin' ? 'selected' : '' ?>>Admin</option>
@@ -88,7 +88,7 @@ if (!isset($_SESSION['username'])) {
                     </select>
                   </div>
                   <div class="mb-2">
-                    <label for="Password">Password</label>
+                    <label for="">Password</label>
                     <input type="password" name="password" id="editPassword<?= $row->user_id ?>" class="form-control" value="<?= $row->password ?>">
                     <div class="form-check mt-2">
                       <input type="checkbox" class="form-check-input" id="showPasswordEdit<?= $row->user_id ?>" onclick="togglePasswordEdit(<?= $row->user_id ?>)">

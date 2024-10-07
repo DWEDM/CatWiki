@@ -213,11 +213,6 @@ class Server extends Controller
       'posts' => $data
     ]);
   }
-  public function profile()
-  {
-
-    $this->view('server/profile');
-  }
   public function cats()
   {
     $cats = new Cat();
@@ -430,5 +425,8 @@ class Server extends Controller
 
     $this->view('server/editProfile', ['user' => $userData]);
   }
-
+  public function articles()
+  {
+    $this->view('server/articles');
+  }
 }

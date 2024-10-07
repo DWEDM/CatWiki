@@ -11,7 +11,7 @@ if (!isset($_SESSION['username'])) {
 
 <div class="container mt-5">
   <div class="d-flex justify-content-between align-items-center">
-    <h2>Cats, Hello</h2>
+    <h2>Cats and Breeds</h2>
     <div>
         <button class="btn btn-secondary mr-2" id="showCats">Show Cats</button>
         <button class="btn btn-secondary" id="showBreeds">Show Breeds</button>
@@ -23,6 +23,7 @@ if (!isset($_SESSION['username'])) {
   </div>
 
   <div id="catsTable" class="mt-3">
+    <h1>Cats</h1>
     <table class="table table-striped">
       <tr>
         <th>Cat Profile</th>
@@ -108,7 +109,6 @@ if (!isset($_SESSION['username'])) {
                         <input type="file" name="cat_image_url[]" class="form-control" accept="image/*" multiple onchange="previewImages(event)">
                       </div>
                       <div id="editCatImagePreviews<?= $catr->cat_id ?>" style="display: flex; flex-wrap: wrap; margin-top: 10px;">
-                        <!-- Display existing cat images here, if any -->
                       </div>
                     </div>
                     <div class="modal-footer">
@@ -164,6 +164,7 @@ if (!isset($_SESSION['username'])) {
 </div>
 
   <div id="breedsTable" class="mt-3" style="display: none;">
+    <h1>Breeds</h1>
     <table class="table table-striped">
       <tr>
         <th>Breed Name</th>
