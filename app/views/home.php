@@ -1,7 +1,7 @@
 <?php include "partials/header.php" ?>
 
 
-<body>
+
     <div class="home-container">
         <div class="home-title-section">
 
@@ -57,5 +57,5 @@
 
         </div>
     </div>
-</body>
+
 <?php include "partials/footer.php" ?>
