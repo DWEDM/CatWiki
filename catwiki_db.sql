@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 04, 2024 at 08:53 AM
+-- Generation Time: Oct 07, 2024 at 09:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,21 @@ SET time_zone = "+00:00";
 --
 -- Database: `catwiki_db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `articles`
+--
+
+CREATE TABLE `articles` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `category_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -42,6 +57,18 @@ CREATE TABLE `breeds` (
 INSERT INTO `breeds` (`breed_id`, `breed_name`, `breed_description`, `average_lifespan`, `origin`) VALUES
 (2, 'Siamese', 'The Siamese cat is one of the first distinctly recognised breeds of Asian cat. The Siamese Cat derived from the Wichianmat landrace. They are one of several varieties of cats native to Thailand, the original Siamese became one of the most popular breeds in Europe and North America in the 19th century.', '15', 'Pwetey'),
 (5, 'British Shorthair', 'The British Shorthair is the pedigreed version of the traditional British domestic cat, with a distinctively stocky body, thick coat, and broad face. The most familiar colour variant is the \"British Blue\", with a solid grey-blue coat, pineapple eyes, and a medium-sized tail', '9', 'Great Britain');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -88,19 +115,34 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `profile`, `username`, `email`, `password`, `role`, `date_created`) VALUES
-(20, '', 'aj', 'aj@gmail.com', '$2y$10$yEqVAzu/e0jB9avbZ3gp7OCFwGJxaUzUzsr3ywPbvDpdWJ81BOn92', 'Admin', '2024-09-30'),
 (27, '', 'jm', 'jm@gmail.com', '$2y$10$yBMIXRogfITIY58qEJXS7OJnDxDzC3ont34k/yKXAAgfH6VCdrota', 'Admin', '2024-10-04'),
-(28, '', 'bagat', 'bagat@gmail.com', '$2y$10$TgH6bPAK6lQJoSC/CFDBFe6D3LQDAqkAXzlkOpWMWyu9x93fwu6zC', 'Admin', '2024-10-04');
+(28, '', 'bagat', 'bagat@gmail.com', '$2y$10$TgH6bPAK6lQJoSC/CFDBFe6D3LQDAqkAXzlkOpWMWyu9x93fwu6zC', 'Admin', '2024-10-04'),
+(30, '', 'aj11', 'aj@gmail.com', '$2y$10$ecvRmFfaZ16kuRFq4jFlgedQKm8mWWEKpNtppFRCY1neHsUZthZAO', 'Admin', '2024-10-07'),
+(31, '', 'denver', 'denver@gmail.com', '$2y$10$GO83M6KTbDJj.8MO4EY17eKMlEOoFOO.fcNoElQ97PVO8erkNNmXy', 'Admin', '2024-10-07');
 
 --
 -- Indexes for dumped tables
 --
 
 --
+-- Indexes for table `articles`
+--
+ALTER TABLE `articles`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `category_id` (`category_id`);
+
+--
 -- Indexes for table `breeds`
 --
 ALTER TABLE `breeds`
   ADD PRIMARY KEY (`breed_id`);
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indexes for table `cats`
@@ -120,10 +162,22 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `articles`
+--
+ALTER TABLE `articles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `breeds`
 --
 ALTER TABLE `breeds`
   MODIFY `breed_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cats`
@@ -135,11 +189,17 @@ ALTER TABLE `cats`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `articles`
+--
+ALTER TABLE `articles`
+  ADD CONSTRAINT `articles_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `cats`
