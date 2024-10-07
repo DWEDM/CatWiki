@@ -76,12 +76,47 @@ if (isset($_GET['logout'])) {
       <div class="navbar-links">
         <ul class="navbar-nav">
           <li><a href="">Home</a></li>
-          <li><a href="<?= SERVER ?>/dashboard">Dashboard</a></li> <!--Dat admin/editor lang to-->
-          <li><a href="<?= SERVER ?>/users">Users</a></li>
-          <li><a href="<?= SERVER ?>/articles">Articles</a></li>
-          <li><a href="<?= SERVER ?>/cats">Cats</a></li>
-          <li><a href="<?= SERVER ?>/profile">Profile</a></li>
-          <li><a href="<?= SERVER ?>/login?logout=true">Log Out</a></li>
+          <li></li> <!--Dat admin/editor lang to-->
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
         </ul>
       </div>
   </div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a href="<?= SERVER ?>/dashboard">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a href="<?= SERVER ?>/users">Users</a>
+        </li>
+        <li class="nav-item">
+          <a href="<?= SERVER ?>/cats">Cats</a>
+        </li>
+        <li class="nav-item">
+          <a href="<?= SERVER ?>/profile">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a href="<?= SERVER ?>/login?logout=true">Log Out</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Articles
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="#">achuchuchu</a>
+            <a class="dropdown-item" href="#">achuchuchu</a>
+            <a class="dropdown-item" href="#">achuchuchu</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
