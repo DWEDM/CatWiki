@@ -7,7 +7,7 @@ class Model extends Database
   {
     if (!property_exists($this, 'table')) {
 
-      $this->table = strtolower($this::class) . 's';
+      $this->table = strtolower($this::get_class(Model)) . 's';
 
 
     }
