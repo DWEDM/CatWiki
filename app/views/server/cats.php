@@ -12,11 +12,16 @@ if (!isset($_SESSION['username'])) {
 <div class="container mt-5">
   <div class="d-flex justify-content-between align-items-center">
     <h2>Cats</h2>
-    <div>
-      <button class="btn btn-secondary" id="showCats">Show Cats</button>
-      <button class="btn btn-secondary" id="showBreeds">Show Breeds</button>
-      <button class="btn btn-primary" data-toggle="modal" data-target="#selectAddModal">Add New</button>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Show
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#" id="showCats">Cats</a>
+        <a class="dropdown-item" href="#" id="showBreeds">Breeds</a>
+      </div>
     </div>
+  <button class="btn btn-primary" data-toggle="modal" data-target="#selectAddModal">Add New</button>
   </div>
   <div class="input-group" style="width: 250px;">
     <input type="text" id="searchInput" class="form-control" placeholder="Search Posts" aria-label="Search" onkeyup="searchUsers()">
@@ -157,9 +162,6 @@ if (!isset($_SESSION['username'])) {
                     </div>
                 </div>
             </div>
-
-
-
         <?php } ?>
       <?php } ?>
     </table>
@@ -171,7 +173,7 @@ if (!isset($_SESSION['username'])) {
         <th>Breed Name</th>
         <th>Description</th>
         <th>Average Lifespan</th>
-        <th>Size</th>
+        <th>Origin</th>
         <th>Actions</th>
       </tr>
       <?php if (empty($breeds)) { ?>
@@ -190,6 +192,68 @@ if (!isset($_SESSION['username'])) {
                 <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteBreedModal<?= $breed->breed_id ?>">Delete</button>
               </td>
             </tr>
+            <!-- Edit Breed Modal -->
+            <div class="modal fade" id="editBreedModal<?= $breed->breed_id ?>" tabindex="-1" role="dialog" aria-labelledby="editBreedModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editBreedModalLabel">Edit Breed</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="<?= SERVER ?>/editbreed/<?= $breed->breed_id ?>" method="POST">
+                            <div class="modal-body">
+                                <div class="mb-2">
+                                    <label for="breedName">Breed Name</label>
+                                    <input type="text" name="breed_name" value="<?= $breed->breed_name ?>" class="form-control" required>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="breedDescription">Description</label>
+                                    <textarea name="breed_description" class="form-control" required><?= $breed->breed_description ?></textarea>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="averageLifespan">Average Lifespan</label>
+                                    <input type="text" name="average_lifespan" value="<?= $breed->average_lifespan ?>" class="form-control" required>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="size">Origin</label>
+                                    <input type="text" name="origin" value="<?= $breed->origin ?>" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Breed Modal -->
+            <div class="modal fade" id="deleteBreedModal<?= $breed->breed_id ?>" tabindex="-1" role="dialog" aria-labelledby="deleteBreedModalLabel<?= $breed->breed_id ?>" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="deleteBreedModalLabel">Delete Breed</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <form action="<?= SERVER ?>/delete_breed/<?= $breed->breed_id ?>" method="POST">
+                          <div class="modal-body text-center">
+                              <p><strong>Breed Name:</strong> <?= $breed->breed_name ?></p>
+                              <p><strong>Description:</strong> <?= $breed->breed_description ?></p>
+                              <p>Are you sure you want to delete this breed?</p>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-danger">Delete</button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
             <?php } ?>
         <?php } ?>
     </table>
@@ -315,7 +379,6 @@ document.getElementById('showBreeds').addEventListener('click', function(event) 
     document.getElementById('catsTable').style.display = 'none';
     document.getElementById('breedsTable').style.display = 'block';
 });
-
 
 function previewImages(event) {
     const imagePreviewsContainer = document.getElementById('imagePreviews');
