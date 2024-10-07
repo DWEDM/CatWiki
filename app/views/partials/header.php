@@ -51,7 +51,7 @@ if (isset($_GET['logout'])) {
           <li><a href="<?= SERVER ?>/users">Users</a></li>
           <li><a href="<?= SERVER ?>/articles">Articles</a></li>
           <li><a href="<?= SERVER ?>/cats">Cats</a></li>
-          <li><a href="<?= SERVER ?>/editProfile">Profile</a></li>
+          <li><a href="<?= SERVER ?>/profile">Profile</a></li>
           <li><a href="<?= SERVER ?>/login?logout=true">Log Out</a></li>
         </ul>
       </div>
