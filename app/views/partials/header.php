@@ -10,44 +10,49 @@ if (isset($_GET['logout'])) {
 <!doctype html>
 <html lang="en">
 
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-      <?= APP_NAME ?>
-    </title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="style.css" rel="stylesheet">
-  </head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>
+    <?= APP_NAME ?>
+  </title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  
+    <style>
+      .navbar{
+        width: 100%;
+        height: 200px;
+        background-color: #F6F2F1;
+        overflow: hidden;
+      }
+      .logo-nav{
+        width: auto;
+        height: auto;
+      }
+      .logo-nav img{
+        margin-left: 3%;
+        width: 4%;
+        height: auto;
+      }
+    </style>
 
-  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #F6F2F1;">
-    <a class="navbar-brand" href="#">CatWiki</a>
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Dashboard</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Articles</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Categories
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="#">Cat</a>
-            <a class="dropdown-item" href="#">Breed</a>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </nav>
+</head>
+<body>
+  <div class= "navbar">
+      <div class="logo-nav">
+        <img src="assets/HomePage/resources/Banner.png" alt="">
+      </div>
+      
+      <div class="navbar-links">
+        <ul class="navbar-nav">
+          <li><a href="">Home</a></li>
+          <li><a href="<?= SERVER ?>/dashboard">Dashboard</a></li> <!--Dat admin/editor lang to-->
+          <li><a href="<?= SERVER ?>/users">Users</a></li>
+          <li><a href="<?= SERVER ?>/articles">Articles</a></li>
+          <li><a href="<?= SERVER ?>/cats">Cats</a></li>
+          <li><a href="<?= SERVER ?>/profile">Profile</a></li>
+          <li><a href="<?= SERVER ?>/login?logout=true">Log Out</a></li>
+        </ul>
+      </div>
+  </div>
