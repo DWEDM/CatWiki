@@ -62,7 +62,7 @@ if (isset($_GET['logout'])) {
                 <li class="nav-item">
                   <a class="nav-link" href="<?= SERVER ?>/usersprofile">Profile</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item d-flex">
                     <a class="nav-link" href="<?= SERVER ?>/login?logout=true">Log Out</a>
                 </li>
             </ul>

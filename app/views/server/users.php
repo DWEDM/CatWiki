@@ -64,8 +64,9 @@ if (!isset($_SESSION['username'])) {
                   <div class="mb-2 text-center">
                     <img id="editImagePreview<?= $row->user_id ?>" src="<?= !empty($row->profile) ? $row->profile : '../assets/images/default_profile/default.png' ?>" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%; border: 2px solid #000;">
                     <br>
-                    <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeProfileImage('editImagePreview<?= $row->user_id ?>')">Remove</button>
+                    <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeProfileImage('editImagePreview<?= $row->user_id ?>', 'editProfileImageRemove<?= $row->user_id ?>')">Remove</button>
                   </div>
+                  <input type="hidden" id="editProfileImageRemove<?= $row->user_id ?>" name="profile" value="">
                   <div>
                     <label for="">Profile Image</label>
                     <input type="file" name="edit_profile" class="form-control" accept="image/*" onchange="previewEditImage(event, 'editImagePreview<?= $row->user_id ?>')">
@@ -164,7 +165,8 @@ if (!isset($_SESSION['username'])) {
           </div>
           <div class="mb-2">
             <label for="username">Username</label>
-            <input type="text" name="username" class="form-control" required>
+            <input type="text" id="username" name="username" class="form-control" required>
+            <small id="usernameFeedback" class="text-danger" style="display: none;"></small>
           </div>
           <div class="mb-2">
             <label for="email">Email</label>
@@ -265,7 +267,30 @@ if (!isset($_SESSION['username'])) {
     rows[i].style.display = found ? "" : "none"; // Show or hide the row based on the search
   }
 }
+document.getElementById('username').addEventListener('input', function() {
+    const username = this.value;
+    const feedback = document.getElementById('usernameFeedback');
 
+    if (username.length < 3) {
+        feedback.style.display = 'none';
+        return; // Early exit if the username is too short
+    }
+
+    fetch(`<?= SERVER ?>/check-username?username=${encodeURIComponent(username)}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.taken) {
+                feedback.style.display = 'block';
+                feedback.textContent = 'Username is already taken.';
+            } else {
+                feedback.style.display = 'none';
+            }
+        })
+        .catch(error => {
+            console.error('Error checking username:', error);
+            feedback.style.display = 'none'; // Hide feedback on error
+        });
+});
 </script>
 
 <?php include "../app/views/partials/footer.php" ?>

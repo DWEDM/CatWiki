@@ -153,18 +153,22 @@ class Server extends Controller
             // Move the uploaded file to the desired directory
             if (move_uploaded_file($_FILES['edit_profile']['tmp_name'], $uploadFile)) {
                 $relativeFilePath = str_replace('/public', '', $uploadFile);
-                $postData['profile'] = $relativeFilePath;
+                $postData['profile'] = $relativeFilePath; // Update profile image path
             } else {
-                // Handle the error of moving the file
+                // Handle the error of moving the file (optional logging or user feedback)
             }
+        }
+
+        // Check if the profile image should be removed
+        if (isset($postData['remove_profile']) && $postData['remove_profile'] === 'remove') {
+            $postData['profile'] = '../assets/images/default_profile/default.png'; // Set to default image
         }
 
         // Hash the password if it's provided
         if (!empty($postData['password'])) {
             $postData['password'] = password_hash($postData['password'], PASSWORD_DEFAULT);
         } else {
-            // If the password field is empty, you might want to keep the existing password
-            unset($postData['password']); // Remove it from postData to avoid overwriting
+            unset($postData['password']);
         }
 
         $x->update_user($user_id, $postData); // Update user data
@@ -175,6 +179,8 @@ class Server extends Controller
         'row' => $data // Pass user data to the view
     ]);
   }
+
+
 
 
   public function delete($user_id)
@@ -231,7 +237,7 @@ class Server extends Controller
 
     if (count($_POST) > 0) {
       
-      $b->insert($_POST);
+      $b->addBreed($_POST);
 
       redirect('server/cats');
     }
@@ -359,11 +365,11 @@ class Server extends Controller
   {
     $b = new Breed();
     $arr['breed_id'] = $breed_id;
-    $data = $b->first($arr);
+    $data = $b->findBreed($arr);
 
     if (count($_POST) > 0) {
 
-      $b->update_breed($breed_id, $_POST);
+      $b->updateBreed($breed_id, $_POST);
 
       redirect('server/cats');
     }
@@ -376,19 +382,23 @@ class Server extends Controller
   {
     $b = new Breed();
     $arr['breed_id'] = $breed_id;
-    $data = $b->first($arr);
+    $data = $b->first($arr); // Fetch the breed
 
-    if (count($_POST) > 0) {
-
-      $b->delete_breed($breed_id);
-
-      redirect('server/cats');
+    if ($data) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Ensure it's a POST request
+            $b->deleteBreed($breed_id); // Attempt to delete
+            redirect('server/cats'); // Redirect after deletion
+        }
+        
+        // Load view to confirm deletion
+        $this->view('server/delete_breed', [
+            'row' => $data
+        ]);
+    } else {
+        echo "Breed not found.";
     }
-
-    $this->view('server/delete_breed', [
-      'row' => $data
-    ]);
   }
+
   public function articles()
   {
     $this->view('server/articles');

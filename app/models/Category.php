@@ -10,7 +10,7 @@ class Category extends Model
 
     public function findCategory($id)
     {
-        return $this->first(['id' => $id]); // Use inherited method to find by id
+        return $this->first(['category_id' => $id]); // Use inherited method to find by id
     }
 
     public function addCategory($data)
@@ -23,8 +23,8 @@ class Category extends Model
         return $this->update($id, $data); // Inherited method
     }
 
-    public function deleteCategory($id)
+    public function deleteCategory($category_id)
     {
-        return $this->delete($id); // Inherited method
+        return $this->delete($category_id); // Inherited method
     }
 }
