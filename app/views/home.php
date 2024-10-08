@@ -1,6 +1,7 @@
 <?php include "partials/clientheader.php" ?>
 <body>
-
+    <link rel="stylesheet" href="style.css">
+    <script rel="javascript" href="script.js"></script>
 
 
     <div class="home-container">
