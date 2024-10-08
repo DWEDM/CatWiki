@@ -7,7 +7,7 @@ if (!isset($_SESSION['username'])) {
 }
 ?>
 
-<?php include "../app/views/partials/header.php" ?>
+<?php include "../app/views/partials/adminheader.php" ?>
 <body style="background-color:gray;">
 
 <div class="container mt-5">
@@ -201,7 +201,7 @@ if (!isset($_SESSION['username'])) {
     </div>
   </div>
 </div>
-
+</body>
 <script>
   function previewImage(event) {
     const imagePreview = document.getElementById('imagePreview');

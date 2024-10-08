@@ -9,7 +9,7 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 ?>
-<?php include "../app/views/partials/header.php" ?>
+<?php include "../app/views/partials/adminheader.php" ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
