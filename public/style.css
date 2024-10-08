@@ -41,6 +41,7 @@ body{
         .home-title-section{
             height: 600px;
         }
+        .home-container .site-info{}
     }
 .home-title-section .image{
     width: 100vw;

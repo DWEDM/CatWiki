@@ -29,22 +29,6 @@
             <div class="description">
                 <h2>Lorem Ipsum</h2>
                 <p>
-                    Lorem ipsum odor amet, consectetuer adipiscing elit. Est est tellus faucibus 
-                    mauris venenatis velit sit. Pharetra aliquam rhoncus natoque habitasse erat 
-                    tempus aptent morbi sem. Dis magnis cubilia vestibulum curabitur maecenas 
-                    feugiat. Magna turpis nisi nisl nam risus nam fermentum. Ultrices convallis 
-                    mus scelerisque erat pulvinar. Class malesuada eget class neque lobortis 
-                    aptent lectus. Mus dapibus lobortis hendrerit cras maximus felis. Ullamcorper 
-                    habitant purus ut parturient ad at accumsan molestie.
-                    <br>
-                    Scelerisque scelerisque torquent ligula erat dictumst; luctus ex. In ultrices 
-                    sollicitudin integer integer arcu ex porttitor class neque. Enim ultricies 
-                    amet penatibus imperdiet maecenas nulla ante nec. Luctus sit dis vulputate 
-                    vel facilisi aptent velit. Aliquam vehicula duis lobortis non porttitor ultrices 
-                    bibendum mollis mollis. Dolor molestie enim eget pretium montes sem est. 
-                    Porta interdum tincidunt montes euismod euismod netus magnis purus varius. 
-                    Conubia rhoncus suspendisse sed, luctus molestie auctor. Massa a cubilia duis 
-                    purus in efficitur magnis.
                 </p>
             </div>
         </div>
