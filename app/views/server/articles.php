@@ -6,8 +6,10 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 ?>
-<?php include "../app/views/partials/header.php" ?>
+<?php include "../app/views/partials/adminheader.php" ?>
 <body style="background-color: gray;">
+    
+</body>
 <h1>Articles</h1>
 
 <?php include "../app/views/partials/footer.php" ?>

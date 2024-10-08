@@ -37,6 +37,7 @@
         </div>
     </div>
 </div>
+</body>
 
 <script>
     document.getElementById('showPassword').addEventListener('change', function() {

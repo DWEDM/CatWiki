@@ -18,7 +18,8 @@ if (isset($_GET['logout'])) {
   </title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybVtRZT2Rp30LqU2P2kSOX3TkDOc2Cq8v6JhS+TnF1BvD0Eay" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-CB8qY0pD1bNdD7V8C6P0+t6O3H9kC9R++jLxZ0zwMmFauD8qXT2P2kn4dFCda6kj" crossorigin="anonymous"></script>
     <style>
         .navbar {
             background-color: #F6F2F1;
@@ -69,9 +70,7 @@ if (isset($_GET['logout'])) {
     </div>
 </nav>
 
-<!-- Include Bootstrap JS and dependencies -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybVtRZT2Rp30LqU2P2kSOX3TkDOc2Cq8v6JhS+TnF1BvD0Eay" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-CB8qY0pD1bNdD7V8C6P0+t6O3H9kC9R++jLxZ0zwMmFauD8qXT2P2kn4dFCda6kj" crossorigin="anonymous"></script>
+
 
 </body>
 </html>
