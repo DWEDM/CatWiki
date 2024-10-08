@@ -5,7 +5,7 @@
       }
 ?>
 
-<?php include "../app/views/partials/header.php" ?>
+<?php include "../app/views/partials/adminheader.php" ?>
 <body style="background-color:gray;">
 <div class="container mt-5">
     <h2>Edit Profile</h2>
@@ -28,4 +28,6 @@
         </div>
     </form>
 </div>
+    
+</body>
 <?php include "../app/views/partials/footer.php" ?>

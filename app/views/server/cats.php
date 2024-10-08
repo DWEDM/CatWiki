@@ -6,7 +6,7 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 ?>
-<?php include "../app/views/partials/header.php" ?>
+<?php include "../app/views/partials/adminheader.php" ?>
 <body style="background-color: gray;">
 
 <div class="container mt-5">
@@ -361,7 +361,7 @@ if (!isset($_SESSION['username'])) {
     </div>
   </div>
 </div>
-
+</body>
 <?php include "../app/views/partials/footer.php" ?>
 
 <script>
