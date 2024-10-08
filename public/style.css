@@ -41,7 +41,6 @@ body{
         .home-title-section{
             height: 600px;
         }
-        .home-container .site-info{}
     }
 .home-title-section .image{
     width: 100vw;
@@ -61,7 +60,7 @@ body{
     justify-items: center;
     text-align: left;
 }
-
+    
 .featured-articles{    
     background-color: #4B7D65;
     height: auto;
@@ -83,7 +82,7 @@ body{
     height: 100%;
 }
 .home-container .site-info .display-img{
-    width: relative;
+    width: 50%;
     height: auto;
 
     background: url(assets/resources/1.jfif);
@@ -93,10 +92,5 @@ body{
     background-position: center;
 }
 .home-container .site-info .description{
-    padding-left: 5%;
-    padding-right: 5%;
-
-    width: 100%;
-    height: 100%;
     justify-content: left;
 }
