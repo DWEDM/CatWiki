@@ -33,12 +33,6 @@
 
 <div class="container-footer">
 </div>
-</body>
-
-
-
-
-
 <footer class="bg-body-tertiary text-center text-lg-start">
   <!-- Grid container -->
     <div class="container p-4">
