@@ -213,11 +213,6 @@ class Server extends Controller
       'posts' => $data
     ]);
   }
-  public function profile()
-  {
-
-    $this->view('server/profile');
-  }
   public function cats()
   {
     $cats = new Cat();
@@ -394,41 +389,8 @@ class Server extends Controller
       'row' => $data
     ]);
   }
-  public function editProfile()
+  public function articles()
   {
-    // Check if the user is logged in
-    if (!isset($_SESSION['username'])) {
-        redirect('server/login'); // Redirect to login page if not logged in
-        exit();
-    }
-
-    // Fetch the current user's data
-    $x = new User();
-    $user_id = $_SESSION['user_id']; // Get user ID from session
-    $userData = $x->first(['user_id' => $user_id]);
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Handle form submission
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        // Add additional fields as necessary
-
-        // You can handle profile image upload if necessary
-        if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
-            // Handle the file upload and set the new profile image path
-        }
-
-        // Update the user's profile
-        $x->update_user($user_id, [
-            'username' => $username,
-            'email' => $email,
-            // Add additional fields as necessary
-        ]);
-
-        redirect('server/profile'); // Redirect to the profile page after update
-    }
-
-    $this->view('server/editProfile', ['user' => $userData]);
+    $this->view('server/articles');
   }
-
 }
