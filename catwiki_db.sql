@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 08, 2024 at 04:37 AM
+-- Generation Time: Oct 08, 2024 at 10:45 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -56,7 +56,8 @@ CREATE TABLE `breeds` (
 
 INSERT INTO `breeds` (`breed_id`, `breed_name`, `breed_description`, `average_lifespan`, `origin`) VALUES
 (2, 'Siamese', 'The Siamese cat is one of the first distinctly recognised breeds of Asian cat. The Siamese Cat derived from the Wichianmat landrace. They are one of several varieties of cats native to Thailand, the original Siamese became one of the most popular breeds in Europe and North America in the 19th century.', '15', 'Pwetey'),
-(5, 'British Shorthair', 'The British Shorthair is the pedigreed version of the traditional British domestic cat, with a distinctively stocky body, thick coat, and broad face. The most familiar colour variant is the \"British Blue\", with a solid grey-blue coat, pineapple eyes, and a medium-sized tail', '9', 'Great Britain');
+(5, 'British Shorthair', 'The British Shorthair is the pedigreed version of the traditional British domestic cat, with a distinctively stocky body, thick coat, and broad face. The most familiar colour variant is the \"British Blue\", with a solid grey-blue coat, pineapple eyes, and a medium-sized tail', '9', 'Great Britain'),
+(9, 'bOLAY', 'ASDJASJ', '544545', 'ASDASD');
 
 -- --------------------------------------------------------
 
@@ -65,9 +66,9 @@ INSERT INTO `breeds` (`breed_id`, `breed_name`, `breed_description`, `average_li
 --
 
 CREATE TABLE `categories` (
-  `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `description` text DEFAULT NULL
+  `category_id` int(11) NOT NULL,
+  `category_name` varchar(100) NOT NULL,
+  `category_date_created` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -115,9 +116,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `profile`, `username`, `email`, `password`, `role`, `date_created`) VALUES
-(27, '', 'jm', 'jm@gmail.com', '$2y$10$yBMIXRogfITIY58qEJXS7OJnDxDzC3ont34k/yKXAAgfH6VCdrota', 'Admin', '2024-10-04'),
-(30, 0x2e2e2f6173736574732f696d616765732f75736572735f70726f66696c652f696d6167655f363730343836383839383534325f312e6a70672e6a666966, 'aj11', 'aj@gmail.com', '$2y$10$D9Eo44IdJ/hoAn9Zsd8bvO7o8OMn8YX4ecS58hxCTohmz8pYeHHUC', 'Admin', '2024-10-07'),
-(32, '', 'denver', 'denver.delamasa@gmail.com', '$2y$10$1PEGIiXiHTPFNdfyjvnfee9ELNknL1X8hfmW/.IVn6XGDHm29eOA2', 'Admin', '2024-10-08');
+(27, 0x2e2e2f6173736574732f696d616765732f75736572735f70726f66696c652f696d6167655f363730346434373432616561635f312e6a70672e6a666966, 'jm', 'jm@gmail.com', '$2y$10$PkzG22pm8871BHX2pM4WG.jLnE47LVpN8YmSASt.9nv8GrWzLEpDO', 'Admin', '2024-10-04'),
+(30, '', 'aj11', 'aj@gmail.com', '$2y$10$pYJsR47uER2V6q.zqPvimepyVADmqXYzfP5SVEHbcvW214C4sBWqi', 'Admin', '2024-10-07'),
+(32, '', 'denver', 'denver.delamasa@gmail.com', '$2y$10$M39h0D3ISPaxQyCfsDH25.5G5Pt084p49rXUbVOjmxm.ub1i0JFhK', 'Admin', '2024-10-08'),
+(33, '', 'aj12', 'aj12@gmail.com', '$2y$10$LH5NK9Pk075NVKBdRYAw6.YbNKByCDmPsTdLXar9eP23BnRTucm/m', 'Admin', '2024-10-08');
 
 --
 -- Indexes for dumped tables
@@ -140,8 +142,8 @@ ALTER TABLE `breeds`
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
+  ADD PRIMARY KEY (`category_id`),
+  ADD UNIQUE KEY `name` (`category_name`);
 
 --
 -- Indexes for table `cats`
@@ -170,13 +172,13 @@ ALTER TABLE `articles`
 -- AUTO_INCREMENT for table `breeds`
 --
 ALTER TABLE `breeds`
-  MODIFY `breed_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `breed_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cats`
@@ -188,7 +190,7 @@ ALTER TABLE `cats`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Constraints for dumped tables
@@ -198,7 +200,7 @@ ALTER TABLE `users`
 -- Constraints for table `articles`
 --
 ALTER TABLE `articles`
-  ADD CONSTRAINT `articles_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL;
+  ADD CONSTRAINT `articles_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `cats`
