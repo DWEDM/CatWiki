@@ -430,5 +430,4 @@ class Server extends Controller
 
     $this->view('server/editProfile', ['user' => $userData]);
   }
-
 }
