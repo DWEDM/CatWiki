@@ -12,6 +12,16 @@ body{
         padding-right: 10%;
         font-size: calc(9px + 1vw);
     }
+
+    /*===============================*/
+
+    .site-info .description h2{
+        font-size: calc(10px + 3vw);
+    }
+    .site-info .description p{
+        padding-right: 10%;
+        font-size: calc(9px + 1vw);
+    }
 .home-container{
     width: 100%;
     height: auto;
@@ -50,9 +60,37 @@ body{
     justify-items: center;
     text-align: left;
 }
-
+    
 .featured-articles{    
     background-color: #4B7D65;
     height: auto;
     width: 100%;
+}
+
+
+
+
+
+.home-container .site-info{
+    width: 100%;
+    height: 700px;
+
+    display: flex;
+}
+.home-container .site-info .display-img{
+    width: 52.5%;
+    height: 100%;
+}
+.home-container .site-info .display-img{
+    width: 50%;
+    height: auto;
+
+    background: url(assets/resources/1.jfif);
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    background-position: center;
+}
+.home-container .site-info .description{
+    justify-content: left;
 }

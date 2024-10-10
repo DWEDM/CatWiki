@@ -11,6 +11,12 @@ if (isset($_GET['logout'])) {
 <html lang="en">
 
 <head>
+
+
+
+
+
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>
@@ -35,48 +41,42 @@ if (isset($_GET['logout'])) {
       }
   </style>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="">
-        <img src="assets/Banner.png" alt="" style="height: auto; width: 60px;">
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="">
+      <img src="assets/Banner.png" alt="" style="height: auto; width: 60px;">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a href="#" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="<?= SERVER ?>/cats" class="nav-link">Cats</a>
+        </li>
+        <li class="nav-item">
+          <a href="<?= SERVER ?>/profile" class="nav-link">Profile</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Articles</a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li><a class="dropdown-item" href="#">achuchu</a></li>
+            <li><a class="dropdown-item" href="#">achuhuc</a></li>
+            <li><a class="dropdown-item" href="#">achuchu</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="d-flex">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a href="#" class="nav-link">Home</a>
-          </li>
-          <li class="nav-item">
-            <a href="<?= SERVER ?>/dashboard" class="nav-link">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a href="<?= SERVER ?>/users"  class="nav-link">Users</a>
-          </li>
-          <li class="nav-item">
-            <a href="<?= SERVER ?>/cats" class="nav-link">Cats</a>
-          </li>
-          <li class="nav-item">
-            <a href="<?= SERVER ?>/profile" class="nav-link">Profile</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Articles</a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><a class="dropdown-item" href="#">achuchu</a></li>
-              <li><a class="dropdown-item" href="#">achuhuc</a></li>
-              <li><a class="dropdown-item" href="#">achuchu</a></li>
-            </ul>
+          <li class="nav-item float-right">
+            <a href="<?= SERVER ?>/login?logout=true" class="nav-link">Log Out</a>
           </li>
         </ul>
-        <form class="d-flex">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item float-right">
-              <a href="<?= SERVER ?>/login?logout=true" class="nav-link">Log Out</a>
-            </li>
-          </ul>
-        </form>
-      </div>
+      </form>
     </div>
-  </nav>
+  </div>
+</nav>
