@@ -325,7 +325,7 @@ class Server extends Controller
         }
 
         // Update the cat's information
-        $x->update_cat($cat_id, $postData);
+        $x->updateCat($cat_id, $postData);
 
         // Redirect to the list of cats
         redirect('server/cats');
@@ -342,7 +342,7 @@ class Server extends Controller
     $data = $x->first($arr);
 
     if (count($_POST) > 0) {
-        $x->delete_cat($cat_id);
+        $x->deleteCat($cat_id);
 
         redirect('server/cats');
     }
