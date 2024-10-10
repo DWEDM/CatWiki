@@ -94,7 +94,7 @@ class Server extends Controller
   public function users()
   {
     $users = new User();
-    $data = $users->findAll();
+    $data = $users->findAllUsers();
 
     $this->view('server/users', [
       'users' => $data
@@ -127,7 +127,7 @@ class Server extends Controller
         }
 
         // Insert user data into the database
-        $x->insert($_POST);
+        $x->addUser($_POST);
         redirect('server/users');
     }
 
@@ -139,7 +139,7 @@ class Server extends Controller
   {
     $x = new User();
     $arr['user_id'] = $user_id;
-    $data = $x->first($arr); // Fetch user data
+    $data = $x->findUser($arr); // Fetch user data
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $postData = $_POST;
@@ -171,7 +171,7 @@ class Server extends Controller
             unset($postData['password']);
         }
 
-        $x->update_user($user_id, $postData); // Update user data
+        $x->updateUser($user_id, $postData); // Update user data
         redirect('server/users'); // Redirect to users list
     }
 
@@ -201,22 +201,12 @@ class Server extends Controller
     }
 
     if (count($_POST) > 0) {
-        $x->delete_user($user_id);
+        $x->deleteUser($user_id);
         redirect('server/users');
     }
 
     $this->view('server/delete', [
         'row' => $data
-    ]);
-  }
-
-  public function article()
-  {
-    $posts = new Article();
-    $data = $posts->findAll();
-
-    $this->view('server/aricle', [
-      'posts' => $data
     ]);
   }
   public function cats()
@@ -401,6 +391,11 @@ class Server extends Controller
 
   public function articles()
   {
-    $this->view('server/articles');
+    $posts = new Article();
+    $data = $posts->findAllArticles();
+
+    $this->view('server/articles', [
+      'articles' => $data
+    ]);
   }
 }

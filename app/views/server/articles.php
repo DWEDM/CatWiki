@@ -31,8 +31,8 @@ if (!isset($_SESSION['username'])) {
         <?php } else { ?>
             <?php foreach ($articles as $article) { ?>
                 <tr>
-                    <td><?= htmlspecialchars($article->title) ?></td>
-                    <td><?= htmlspecialchars(substr($article->content, 0, 50)) ?></td>
+                    <td><?= htmlspecialchars($article->article_title) ?></td>
+                    <td><?= htmlspecialchars(substr($article->article_content, 0, 50)) ?></td>
                     <td><?= htmlspecialchars($article->created_at) ?></td>
                     <td><?= htmlspecialchars($article->updated_at) ?></td>
                     <td><?= htmlspecialchars($article->category_id) ?></td>
@@ -52,7 +52,7 @@ if (!isset($_SESSION['username'])) {
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form action="<?= SERVER ?>/edit-article/<?= $article->id ?>" method="POST">
+                            <form action="<?= SERVER ?>/edit-article/<?= $article->article_id ?>" method="POST">
                                 <div class="modal-body">
                                     <div class="mb-2">
                                         <label for="">Title</label>
@@ -60,7 +60,7 @@ if (!isset($_SESSION['username'])) {
                                     </div>
                                     <div class="mb-2">
                                         <label for="">Content</label>
-                                        <textarea name="content" class="form-control" required><?= htmlspecialchars($article->content) ?></textarea>
+                                        <textarea name="article_content" class="form-control" required><?= htmlspecialchars($article->content) ?></textarea>
                                     </div>
                                     <div class="mb-2">
                                         <label for="">Category ID</label>
@@ -77,7 +77,7 @@ if (!isset($_SESSION['username'])) {
                 </div>
 
                 <!-- Delete Article Modal -->
-                <div class="modal fade" id="deleteArticleModal<?= $article->id ?>" tabindex="-1" role="dialog" aria-labelledby="deleteArticleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="deleteArticleModal<?= $article->article_id ?>" tabindex="-1" role="dialog" aria-labelledby="deleteArticleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -86,11 +86,11 @@ if (!isset($_SESSION['username'])) {
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form action="<?= SERVER ?>/delete-article/<?= $article->id ?>" method="POST">
+                            <form action="<?= SERVER ?>/delete-article/<?= $article->article_id ?>" method="POST">
                                 <div class="modal-body text-center">
                                     <p>Are you sure you want to delete this article?</p>
-                                    <p><strong>Title:</strong> <?= htmlspecialchars($article->title) ?></p>
-                                    <input type="hidden" name="id" value="<?= $article->id ?>">
+                                    <p><strong>Title:</strong> <?= htmlspecialchars($article->article_title) ?></p>
+                                    <input type="hidden" name="id" value="<?= $article->article_id ?>">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -119,11 +119,11 @@ if (!isset($_SESSION['username'])) {
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="">Title</label>
-                        <input type="text" name="title" class="form-control" required>
+                        <input type="text" name="article_title" class="form-control" required>
                     </div>
                     <div class="mb-2">
                         <label for="">Content</label>
-                        <textarea name="content" class="form-control" required></textarea>
+                        <textarea name="article_content" class="form-control" required></textarea>
                     </div>
                     <div class="mb-2">
                         <label for="">Category ID</label>

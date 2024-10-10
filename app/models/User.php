@@ -2,37 +2,30 @@
 
 class User extends Model
 {
-    protected $table = 'users';
+    protected $table = 'users';  
 
-    public function usernameExists($username)
+    public function findAllUsers()
     {
-        $result = $this->where(['username' => $username]);
-        return $result ? true : false;
+        return $this->findAll(); 
     }
 
-    public function createUser($data)
+    public function findUser($user_id)
     {
-        return $this->insert($data);
+        return $this->first(['user_id' => $user_id]); 
     }
 
-    // Method to update user information
-    public function updateUser($id, $data)
+    public function addUser($data)
     {
-        return $this->update($id, $data, 'user_id'); // Assuming 'user_id' is the primary key
+        return $this->insert($data); 
     }
 
-    public function deleteUser($id)
+    public function updateUser($user_id, $data)
     {
-        return $this->delete($id, 'user_id'); // Assuming 'user_id' is the primary key
+        return $this->update($user_id, $data, 'user_id');
     }
 
-    public function getAllUsers()
+    public function deleteUser($user_id)
     {
-        return $this->findAll();
-    }
-
-    public function findUserById($id)
-    {
-        return $this->first(['user_id' => $id]); // Assuming 'user_id' is the primary key
+        return $this->delete($user_id, 'user_id');
     }
 }
