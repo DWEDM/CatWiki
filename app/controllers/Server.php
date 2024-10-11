@@ -95,7 +95,7 @@ class Server extends Controller
   {
     $users = new User();
     $data = $users->findAllUsers();
-
+    
     $this->view('server/users', [
       'users' => $data
     ]);
@@ -133,8 +133,6 @@ class Server extends Controller
 
     $this->view('server/create');
   }
-
-
   public function edit($user_id)
   {
     $x = new User();
@@ -179,10 +177,6 @@ class Server extends Controller
         'row' => $data // Pass user data to the view
     ]);
   }
-
-
-
-
   public function delete($user_id)
   {
     $x = new User();
@@ -393,9 +387,138 @@ class Server extends Controller
   {
     $posts = new Article();
     $data = $posts->findAllArticles();
+    $categories = new Category();
+    $category = $categories->findAllCategories();
 
     $this->view('server/articles', [
-      'articles' => $data
+      'articles' => $data,
+      'categories' => $category
     ]);
+  }
+  public function createArticle()
+  {
+    $a = new Article();
+
+    if (count($_POST) > 0) {
+        // Check if the thumbnail image was uploaded without errors
+        if ($_FILES['input_thumbnail']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = '../public/assets/images/article_thumbnails/';
+            $uniqueFilename = uniqid('image_') . '_' . $_FILES['input_thumbnail']['name'];
+            $uploadFile = $uploadDir . $uniqueFilename;
+
+            if (move_uploaded_file($_FILES['input_thumbnail']['tmp_name'], $uploadFile)) {
+                $relativeFilePath = str_replace('/public', '', $uploadFile);
+                $_POST['article_thumbnail'] = $relativeFilePath; // Store the relative path of the profile image
+            } else {
+                echo "Error uploading file.";
+                exit;
+            }
+        }
+
+        // Insert user data into the database
+        $a->addArticle($_POST);
+        redirect('server/articles');
+    }
+
+    $this->view('server/createArticle');
+  }
+  public function editArticle($article_id)
+  {
+    $a = new Article();
+    $arr['article_id'] = $article_id;
+    $data = $a->findArticle($arr); // Fetch user data
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $postData = $_POST;
+
+        // Check if a new profile image is uploaded
+        if (isset($_FILES['edit_thumbnail']) && $_FILES['edit_thumbnail']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = '../public/assets/images/article_thumbnails/';
+            $uniqueFilename = uniqid('image_') . '_' . basename($_FILES['edit_thumbnail']['name']);
+            $uploadFile = $uploadDir . $uniqueFilename;
+
+            if (move_uploaded_file($_FILES['edit_thumbnail']['tmp_name'], $uploadFile)) {
+                $relativeFilePath = str_replace('/public', '', $uploadFile);
+                $postData['article_thumbnail'] = $relativeFilePath; 
+            } else {
+
+            }
+        }
+
+        $a->updateArticle($article_id, $postData);
+        redirect('server/articles');
+    }
+
+    $this->view('server/editArticle', [
+        'row' => $data
+    ]);
+  }
+  public function deleteArticle($article_id)
+  {
+    $a = new Article();
+    $arr['article_id'] = $article_id;
+    $data = $a->first($arr);
+
+    if ($data) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $a->deleteArticle($article_id);
+            redirect('server/articles');
+        }
+        
+        $this->view('server/deleteArticle', [
+            'row' => $data
+        ]);
+    } else {
+
+    }
+  }
+  public function createCategory()
+  {
+    $c = new Category();
+
+    if (count($_POST) > 0) {
+      
+      $c->addCategory($_POST);
+
+      redirect('server/articles');
+    }
+
+    $this->view('server/createCategory');
+  }
+  public function editCategory($category_id)
+  {
+    $c = new Category();
+    $arr['category_id'] = $category_id;
+    $data = $c->findCategory($arr);
+
+    if (count($_POST) > 0) {
+
+      $c->updateCategory($category_id, $_POST);
+
+      redirect('server/articles');
+    }
+
+    $this->view('server/editBreed', [
+      'row' => $data
+    ]);
+  }
+  public function deleteCategory($category_id)
+  {
+    $c = new Category();
+    $arr['category_id'] = $category_id;
+    $data = $c->first($arr);
+
+    if ($data) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $c->deleteCategory($category_id);
+            redirect('server/articles');
+        }
+        
+        $this->view('server/deleteCategory', [
+            'row' => $data
+        ]);
+    } else {
+
+    }
   }
 }

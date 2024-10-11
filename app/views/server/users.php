@@ -8,10 +8,53 @@ if (!isset($_SESSION['username'])) {
 ?>
 
 <?php include "../app/views/partials/adminheader.php" ?>
+<style>
+  .notification {
+    position: fixed;
+    top: 20px;
+    right: -300px; /* Initially hidden on the right side */
+    width: 250px;
+    padding: 15px;
+    background-color: #28a745; /* Success color */
+    color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 1000;
+    transition: right 0.5s ease-in-out;
+  }
+
+  .notification.error {
+      background-color: #dc3545; /* Error color */
+  }
+  .table {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .table th, .table td {
+      text-align: center;
+      vertical-align: middle;
+      padding: 15px;
+  }
+
+  .table tr:hover {
+      background-color: rgba(0, 123, 255, 0.1); /* Highlight on hover */
+  }
+
+  .table img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+  }
+
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+
 <body style="background-color:gray;">
 
 <div class="container mt-5">
-
   <div class="d-flex justify-content-between align-items-center">
     <h2>Users</h2>
     <button class="btn btn-primary" data-toggle="modal" data-target="#createUserModal">Add New</button>
@@ -44,8 +87,12 @@ if (!isset($_SESSION['username'])) {
           <td><?= $row->role ?></td>
           <td><?= $row->date_created ?></td>
           <td>
-            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editUserModal<?= $row->user_id ?>">Edit</button>
-            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteUserModal<?= $row->user_id ?>">Delete</button>
+            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editUserModal<?= $row->user_id ?>" title="Edit">
+              <i class="bi bi-pencil-square"></i> <!-- Bootstrap edit icon -->
+            </button>
+            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteUserModal<?= $row->user_id ?>" title="Delete">
+              <i class="bi bi-trash"></i> <!-- Bootstrap trash icon -->
+            </button>
           </td>
         </tr>
 
@@ -291,6 +338,28 @@ document.getElementById('username').addEventListener('input', function() {
             feedback.style.display = 'none'; // Hide feedback on error
         });
 });
+function showNotification(message, type = 'success') {
+    const notification = document.getElementById('notification');
+    const notificationMessage = document.getElementById('notificationMessage');
+
+    notificationMessage.innerText = message;
+
+    // Set success or error based on the type
+    if (type === 'error') {
+        notification.classList.add('error');
+    } else {
+        notification.classList.remove('error');
+    }
+
+    // Show notification (slide in)
+    notification.style.right = '20px';
+
+    // Hide notification after 3 seconds
+    setTimeout(() => {
+        notification.style.right = '-300px';
+    }, 3000);
+}
+
 </script>
 
 <?php include "../app/views/partials/footer.php" ?>
